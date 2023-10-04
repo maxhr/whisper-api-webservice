@@ -4,7 +4,7 @@ from gradio_client import Client
 import logging
 import uuid
 
-API_URL = "http://34.67.101.82:7860/"
+API_URL = os.environ.get("DATABASE_URL", "http://0.0.0.0:7860/")
 VIDEO_DIRECTORY = "static"
 os.makedirs(VIDEO_DIRECTORY, exist_ok=True)
 
