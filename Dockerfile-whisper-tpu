@@ -1,0 +1,15 @@
+FROM python:3.9
+
+RUN pip install jax[tpu] -f https://storage.googleapis.com/jax-releases/libtpu_releases.html
+RUN pip install --upgrade clu
+RUN git clone https://github.com/google/flax.git
+RUN pip install --user -e flax
+
+RUN git clone https://github.com/sanchit-gandhi/whisper-jax
+RUN cd whisper-jax && pip install -e .["endpoint"]
+
+RUN apt update
+RUN apt install -y ffmpeg
+RUN pip install cached_property ffmpeg
+
+CMD ["python", "whisper-jax/app/app.py"]
