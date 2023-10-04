@@ -1,6 +1,6 @@
 # docker run --gpus all -p 9000:80 -p 80:9000 -e ASR_MODEL=large-v2 -e ASR_ENGINE=faster_whisper -v /whisper-cache:/root/.cache/whisper -v /faster_whisper-cache:/root/.cache/faster_whisper onerahmet/openai-whisper-asr-webservice:latest-gpu
 
-# git pull https://github.com/maxhr/whisper-api-webservice.git
+# git clone https://github.com/maxhr/whisper-api-webservice.git
 # cd whisper-api-webservice
 # chmod +x ./run.sh
 # ./run.sh
