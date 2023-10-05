@@ -6,4 +6,4 @@
 # ./run.sh
 
 sudo docker build -f Dockerfile-whisper-tpu -t whisper-jax . && sudo docker run -d --privileged --network=host  -v /jax-cache:/jax-cache -v /huggingface-cache:/root/.cache/huggingface/hub whisper-jax
-sudo docker build -f Dockerfile -t whisper-api . && sudo docker run -d -p 8080:8080 whisper-api
+sudo docker build -f Dockerfile -t whisper-api . && sudo docker run -d --network=host whisper-api

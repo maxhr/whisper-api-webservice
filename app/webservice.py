@@ -24,9 +24,9 @@ def transcribe_audio(audio_path, task="transcribe", return_timestamps=False):
     )
     return text
 
-# @router.get("/")
-# async def home():
-#     return {"message": "Machine Learning service"}
+@router.get("/")
+async def home():
+    return {"message": "OK"}
 
 @router.post("/asr")
 async def asr(audio_file: UploadFile = File(...)):
