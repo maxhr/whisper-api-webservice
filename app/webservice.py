@@ -13,9 +13,10 @@ logger = logging.getLogger("whisper")
 
 app = FastAPI()
 router = APIRouter()
-client = Client(API_URL)
+# client = Client(API_URL)
 
 def transcribe_audio(audio_path, task="transcribe", return_timestamps=False):
+    client = Client(API_URL)
     text, runtime = client.predict(
         audio_path,
         task,
