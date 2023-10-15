@@ -12,7 +12,7 @@ os.makedirs(VIDEO_DIRECTORY, exist_ok=True)
 logging.basicConfig(level = logging.INFO)
 logger = logging.getLogger("whisper")
 
-pipe = pipeline("automatic-speech-recognition", model="openai/whisper-large-v2", device="gpu")
+pipe = pipeline("automatic-speech-recognition", model="openai/whisper-large-v2", device="cuda")
 
 app = FastAPI()
 router = APIRouter()
