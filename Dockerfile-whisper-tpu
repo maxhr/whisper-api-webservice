@@ -5,7 +5,8 @@ RUN pip install --upgrade clu
 RUN git clone https://github.com/google/flax.git
 RUN pip install --user -e flax
 
-RUN git clone https://github.com/sanchit-gandhi/whisper-jax
+# RUN git clone https://github.com/sanchit-gandhi/whisper-jax
+RUN git clone https://github.com/maxhr/whisper-jax
 RUN cd whisper-jax && pip install -e .["endpoint"]
 
 RUN apt update
