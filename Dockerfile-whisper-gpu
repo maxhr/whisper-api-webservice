@@ -12,6 +12,6 @@ RUN cd whisper-jax && pip install -e .["endpoint"]
 
 RUN apt update
 RUN apt install -y ffmpeg
-RUN pip install cached_property ffmpeg
+RUN pip install cached_property ffmpeg tensorflow
 
 CMD ["python", "whisper-jax/app/app.py"]
