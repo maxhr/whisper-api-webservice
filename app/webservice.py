@@ -1,4 +1,5 @@
 import os
+from transformers import pipeline
 from fastapi import FastAPI, File, UploadFile, APIRouter
 from gradio_client import Client
 import logging
@@ -10,6 +11,8 @@ os.makedirs(VIDEO_DIRECTORY, exist_ok=True)
 
 logging.basicConfig(level = logging.INFO)
 logger = logging.getLogger("whisper")
+
+pipe = pipeline("automatic-speech-recognition", model="openai/whisper-large-v2", device="gpu")
 
 app = FastAPI()
 router = APIRouter()
@@ -41,6 +44,23 @@ async def asr(audio_file: UploadFile = File(...)):
     try:
         output_with_timestamps = transcribe_audio(audio_path, return_timestamps=False)
         return output_with_timestamps
+    except Exception as e:
+        raise RuntimeError(f"Error: {e}") from e
+    finally:
+        os.remove(audio_path)
+
+@router.post("/whisper")
+async def whisper(audio_file: UploadFile = File(...)):
+    filepath = os.path.basename(audio_file.filename)
+    logger.info(filepath)
+
+    audio_path = f"{VIDEO_DIRECTORY}/{str(uuid.uuid4())}"
+    with open(audio_path, "wb+") as fp:
+        fp.write(audio_file.file.read())
+
+    try:
+        output = pipe(audio_path)
+        return output
     except Exception as e:
         raise RuntimeError(f"Error: {e}") from e
     finally:
