@@ -9,7 +9,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     && rm -rf /var/lib/apt/lists/*
 
 RUN python3 -m venv $POETRY_VENV \
-    && $POETRY_VENV/bin/pip install -U pip setuptools \
+    && $POETRY_VENV/bin/pip install -U pip setuptools tensorflow torch torchvision \
     && $POETRY_VENV/bin/pip install poetry==1.6.1
 
 ENV PATH="${PATH}:${POETRY_VENV}/bin"
