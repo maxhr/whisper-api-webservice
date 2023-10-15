@@ -21,6 +21,6 @@ COPY . /app
 RUN poetry config virtualenvs.in-project true
 RUN poetry install
 
-EXPOSE 8080
+EXPOSE 8081
 
-CMD ["uvicorn", "app.webservice:app", "--host", "0.0.0.0", "--port", "8080"]
+CMD ["uvicorn", "app.webservice:app", "--host", "0.0.0.0", "--port", "8081"]
