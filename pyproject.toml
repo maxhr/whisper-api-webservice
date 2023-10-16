@@ -21,7 +21,8 @@ transformers = "^4.34.0"
 torch = "^2.1.0"
 torchvision = "^0.16.0"
 faster-whisper = "^0.9.0"
-whispercpp = {git = "https://github.com/aarnphm/whispercpp.git"}
+# whispercpp = {git = "https://github.com/aarnphm/whispercpp.git"}
+whispercpp = {file = "./whisper-cpp"}
 
 [build-system]
 requires = ["poetry-core"]

@@ -19,8 +19,8 @@ RUN python3 -m venv $POETRY_VENV \
 
 ENV PATH="${PATH}:${POETRY_VENV}/bin"
 
-# RUN git clone https://github.com/ggerganov/whisper.cpp.git
-# RUN cd whisper.cpp && make
+RUN git clone https://github.com/ggerganov/whisper.cpp.git whisper-cpp
+RUN cd whisper-cpp && WHISPER_CUBLAS=1 make -j
 
 WORKDIR /app
 
