@@ -6,34 +6,32 @@ import logging
 import uuid
 from faster_whisper import WhisperModel
 from whisper_jax import FlaxWhisperPipline
+import jax.numpy as jnp
 
-model_size = "large-v2"
-# Run on GPU with FP16
-model = WhisperModel(model_size, device="cuda", compute_type="float16")
-
-API_URL = os.environ.get("API_URL", "http://localhost:7860/")
+# API_URL = os.environ.get("API_URL", "http://localhost:7860/")
 VIDEO_DIRECTORY = "static"
 os.makedirs(VIDEO_DIRECTORY, exist_ok=True)
 
 logging.basicConfig(level = logging.INFO)
 logger = logging.getLogger("whisper")
 
-pipe = pipeline("automatic-speech-recognition", model="openai/whisper-large-v2", device="cuda")
-jax_pipe = FlaxWhisperPipline("openai/whisper-large-v2")
+# model = WhisperModel("large-v2", device="cuda", compute_type="float16")
+# pipe = pipeline("automatic-speech-recognition", model="openai/whisper-large-v2", device="cuda")
+jax_pipe = FlaxWhisperPipline("openai/whisper-large-v2", dtype=jnp.float16)
 
 app = FastAPI()
 router = APIRouter()
 # client = Client(API_URL)
 
-def transcribe_audio(audio_path, task="transcribe", return_timestamps=False):
-    client = Client(API_URL)
-    text, runtime = client.predict(
-        audio_path,
-        task,
-        return_timestamps,
-        api_name="/predict_1",
-    )
-    return text
+# def transcribe_audio(audio_path, task="transcribe", return_timestamps=False):
+#     client = Client(API_URL)
+#     text, runtime = client.predict(
+#         audio_path,
+#         task,
+#         return_timestamps,
+#         api_name="/predict_1",
+#     )
+#     return text
 
 @router.get("/")
 async def home():
