@@ -37,7 +37,7 @@ router = APIRouter()
 #     )
 #     return text
 
-wisper_cpp = whispercpp.from_pretrained("large")
+wisper_cpp = whispercpp.Whisper.from_pretrained("large")
 
 @router.get("/")
 async def home():
