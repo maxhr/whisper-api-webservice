@@ -5,6 +5,7 @@ from gradio_client import Client
 import logging
 import uuid
 from faster_whisper import WhisperModel
+from whisper_jax import FlaxWhisperPipline
 
 model_size = "large-v2"
 # Run on GPU with FP16
@@ -18,7 +19,7 @@ logging.basicConfig(level = logging.INFO)
 logger = logging.getLogger("whisper")
 
 pipe = pipeline("automatic-speech-recognition", model="openai/whisper-large-v2", device="cuda")
-
+jax_pipe = FlaxWhisperPipline("openai/whisper-large-v2")
 
 app = FastAPI()
 router = APIRouter()
@@ -38,7 +39,7 @@ def transcribe_audio(audio_path, task="transcribe", return_timestamps=False):
 async def home():
     return {"message": "OK"}
 
-@router.post("/asr")
+@router.post("/jax")
 async def asr(audio_file: UploadFile = File(...)):
     filepath = os.path.basename(audio_file.filename)
     logger.info(filepath)
@@ -48,8 +49,8 @@ async def asr(audio_file: UploadFile = File(...)):
         fp.write(audio_file.file.read())
 
     try:
-        output_with_timestamps = transcribe_audio(audio_path, return_timestamps=False)
-        return output_with_timestamps
+        output = jax_pipe(audio_path)
+        return output
     except Exception as e:
         raise RuntimeError(f"Error: {e}") from e
     finally:
