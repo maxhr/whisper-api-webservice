@@ -10,7 +10,7 @@ import uuid
 from faster_whisper import WhisperModel
 from whisper_jax import FlaxWhisperPipline
 import jax.numpy as jnp
-import whispercpp as w
+import whispercpp
 
 # API_URL = os.environ.get("API_URL", "http://localhost:7860/")
 VIDEO_DIRECTORY = "static"
@@ -37,14 +37,7 @@ router = APIRouter()
 #     )
 #     return text
 
-_model: w.Whisper | None = None
-_MODEL_NAME = os.environ.get("GGML_MODEL", "tiny")
-@functools.lru_cache(maxsize=1)
-def get_model() -> w.Whisper:
-    global _model
-    if _model is None:
-        _model = w.Whisper.from_pretrained(_MODEL_NAME)
-    return _model
+wisper_cpp = whispercpp.from_pretrained("large")
 
 @router.get("/")
 async def home():
@@ -60,7 +53,7 @@ async def asr(audio_file: UploadFile = File(...)):
         fp.write(audio_file.file.read())
 
     try:
-        output = w.transcribe_from_file(audio_file)
+        output = wisper_cpp.transcribe_from_file(audio_file)
         return output
     except Exception as e:
         raise RuntimeError(f"Error: {e}") from e
