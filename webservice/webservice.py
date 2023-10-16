@@ -15,9 +15,9 @@ os.makedirs(VIDEO_DIRECTORY, exist_ok=True)
 logging.basicConfig(level = logging.INFO)
 logger = logging.getLogger("whisper")
 
-# model = WhisperModel("large-v2", device="cuda", compute_type="float16")
+model = WhisperModel("large-v2", device="cuda", compute_type="float16")
 # pipe = pipeline("automatic-speech-recognition", model="openai/whisper-large-v2", device="cuda")
-jax_pipe = FlaxWhisperPipline("openai/whisper-large-v2", dtype=jnp.float16)
+# jax_pipe = FlaxWhisperPipline("openai/whisper-large-v2", dtype=jnp.float16)
 
 app = FastAPI()
 router = APIRouter()
