@@ -8,4 +8,4 @@
 sudo docker build -f Dockerfile-whisper-gpu -t whisper-jax .
 sudo docker run -d --gpus all --network=host -e TF_CPP_MIN_LOG_LEVEL=0  -v /jax-cache:/jax-cache -v /huggingface-cache:/root/.cache/huggingface/hub whisper-jax
 sudo docker build -f Dockerfile -t whisper-api .
-sudo docker run -d --network=host whisper-api
+sudo docker run -d --gpus all --network=host -v /huggingface-cache:/root/.cache/huggingface/hub whisper-api
