@@ -15,7 +15,7 @@ os.makedirs(VIDEO_DIRECTORY, exist_ok=True)
 logging.basicConfig(level = logging.INFO)
 logger = logging.getLogger("whisper")
 
-model = WhisperModel("large-v2", device="cuda", compute_type="float16")
+faster_whisper_model = WhisperModel("large-v2", device="cuda", compute_type="float16")
 # pipe = pipeline("automatic-speech-recognition", model="openai/whisper-large-v2", device="cuda")
 # jax_pipe = FlaxWhisperPipline("openai/whisper-large-v2", dtype=jnp.float16)
 
@@ -81,7 +81,7 @@ async def whisper(audio_file: UploadFile = File(...)):
         fp.write(audio_file.file.read())
 
     try:
-        segments, _ = model.transcribe(audio_path)
+        segments, _ = faster_whisper_model.transcribe(audio_path)
         segments = list(segments)  # The transcription will actually run here.
         return segments
     except Exception as e:
