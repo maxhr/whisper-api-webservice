@@ -48,8 +48,8 @@ async def asr(audio_file: UploadFile = File(...)):
         fp.write(audio_file.file.read())
 
     try:
-        output = pipe(audio_path)
-        return output
+        output_with_timestamps = transcribe_audio(audio_path, return_timestamps=False)
+        return output_with_timestamps
     except Exception as e:
         raise RuntimeError(f"Error: {e}") from e
     finally:
