@@ -19,7 +19,7 @@ os.makedirs(VIDEO_DIRECTORY, exist_ok=True)
 logging.basicConfig(level = logging.INFO)
 logger = logging.getLogger("whisper")
 
-faster_whisper_model = WhisperModel("large-v2", device="cuda", compute_type="float16")
+# faster_whisper_model = WhisperModel("large-v2", device="cuda", compute_type="float16")
 # pipe = pipeline("automatic-speech-recognition", model="openai/whisper-large-v2", device="cuda")
 # jax_pipe = FlaxWhisperPipline("openai/whisper-large-v2", dtype=jnp.float16)
 
@@ -50,7 +50,7 @@ def get_model() -> w.Whisper:
 async def home():
     return {"message": "OK"}
 
-@router.post("/jax")
+@router.post("/whisper-cpp")
 async def asr(audio_file: UploadFile = File(...)):
     filepath = os.path.basename(audio_file.filename)
     logger.info(filepath)
