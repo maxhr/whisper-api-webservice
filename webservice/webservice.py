@@ -52,8 +52,11 @@ async def asr(audio_file: UploadFile = File(...)):
     with open(audio_path, "wb+") as fp:
         fp.write(audio_file.file.read())
 
+    converted_audio_path = f"{audio_path}-converted.wav"
+    os.system(f"ffmpeg -i {audio_path} -ar 16000 -ac 1 -c:a pcm_s16le {converted_audio_path}")
+
     try:
-        output = wisper_cpp.transcribe_from_file(audio_path)
+        output = wisper_cpp.transcribe_from_file(converted_audio_path)
         return output
     except Exception as e:
         raise RuntimeError(f"Error: {e}") from e
