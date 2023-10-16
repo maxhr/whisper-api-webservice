@@ -62,6 +62,7 @@ async def asr(audio_file: UploadFile = File(...)):
         raise RuntimeError(f"Error: {e}") from e
     finally:
         os.remove(audio_path)
+        os.remove(converted_audio_path)
 
 
 @router.post("/jax")
