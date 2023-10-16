@@ -53,7 +53,7 @@ async def asr(audio_file: UploadFile = File(...)):
         fp.write(audio_file.file.read())
 
     try:
-        output = wisper_cpp.transcribe_from_file(audio_file)
+        output = wisper_cpp.transcribe_from_file(audio_path)
         return output
     except Exception as e:
         raise RuntimeError(f"Error: {e}") from e
